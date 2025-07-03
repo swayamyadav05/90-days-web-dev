@@ -1,0 +1,106 @@
+body {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+body > div {
+    background: #fff;
+    padding: 2rem 2.5em;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    min-width: 340px;
+    max-width: 400px;
+    width: 100%;
+}
+
+#todos {
+    margin-bottom: 0.7rem;
+}
+
+#todos > div {
+    background: #f0f4f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: background 0.2s;
+}
+
+#todos > div:hover {
+    background: #e2eafc;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: text;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    outline: none;
+    transition: border 0.2s;
+    -webkit-transition: border 0.2s;
+    -moz-transition: border 0.2s;
+    -ms-transition: border 0.2s;
+    -o-transition: border 0.2s;
+}
+
+input[type="text"]:focus {
+    border: 1.5px solid #7c3aed;
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    background-color: #7c3ead;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, bos-shadow 0.2s;
+    -webkit-transition: background 0.2s, bos-shadow 0.2s;
+    -moz-transition: background 0.2s, bos-shadow 0.2s;
+    -ms-transition: background 0.2s, bos-shadow 0.2s;
+    -o-transition: background 0.2s, bos-shadow 0.2s;
+    margin: 1rem 0;
+}
+
+button:hover {
+    background-color: #5b21b6;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.12);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #4b5563;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+#todos > div h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+input[type="text"],
+button {
+    vertical-align: middle;
+}

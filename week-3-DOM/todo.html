@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div>
+            <div>
+                <h2>Todo List</h2>
+                <div id="todos">
+                    <div id="todo-1">
+                        <h4>1. Go to class</h4>
+                        <button onclick="deleteTodo(1)">Delete</button>
+                    </div>
+                    <div id="todo-2">
+                        <h4>2. Go to gym</h4>
+                        <button onclick="deleteTodo(2)">Delete</button>
+                    </div>
+                </div>
+            </div>
+            <input id="inp" type="text" placeholder="Add a new todo..." />
+            <button onclick="addTodo()">Add Todo</button>
+        </div>
+        <script src="scripts.js"></script>
+    </body>
+</html>
