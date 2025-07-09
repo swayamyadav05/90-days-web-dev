@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fetching API</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    </head>
+    <body>
+        LinkedIn
+        <div id="posts"></div>
+        <script>
+            async function getRecentPost() {
+                const response = await axios.get(
+                    "https://jsonplaceholder.typicode.com/posts/1"
+                );
+                document.getElementById("posts").innerHTML = response.data.body;
+            }
+            getRecentPost();
+        </script>
+    </body>
+</html>
