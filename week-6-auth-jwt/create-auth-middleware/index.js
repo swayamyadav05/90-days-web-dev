@@ -61,8 +61,8 @@ app.post("/sign-in", logger, (req, res) => {
 });
 
 function auth(req, res, next) {
-    const token = req.headers.token;
-    const decodeedData = jwt.verify(token, JWT_SECRECT);
+    const authHeader = req.headers.authorization;
+    const decodeedData = jwt.verify(authHeader, JWT_SECRECT);
 
     if (decodeedData.username) {
         req.username = decodeedData.username;

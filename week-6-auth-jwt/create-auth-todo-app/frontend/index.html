@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Auth Todo App</title>
+        <!-- <link rel="stylesheet" href="style.css" /> -->
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+
+            input,
+            button {
+                margin: 5px;
+                padding: 5px;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            li {
+                margin: 5px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div id="auth">
+                <h2>Login</h2>
+                <input type="text" id="username" placeholder="Username" />
+                <input type="password" id="password" placeholder="Password" />
+                <button id="login">Login</button>
+                <button id="register">Register</button>
+            </div>
+            <div id="todos" style="display: none">
+                <h2>Todos</h2>
+                <input type="text" id="new-todo" placeholder="New Todo" />
+                <button id="add-todo">Add</button>
+                <ul id="todo-list"></ul>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            const apiUrl = "http://localhost:3000";
+
+            document
+                .getElementById("login")
+                .addEventListener("click", async () => {
+                    const username = document.getElementById("username").value;
+                    const password = document.getElementById("password").value;
+                    try {
+                        const response = await axios.post(`${apiUrl}/login`, {
+                            username,
+                            password,
+                        });
+                        localStorage.setItem("token", response.data.token);
+                        showTodos();
+                    } catch (error) {
+                        alert("Login failed");
+                    }
+                });
+
+            document
+                .getElementById("register")
+                .addEventListener("click", async () => {
+                    const username = document.getElementById("username").value;
+                    const password = document.getElementById("password").value;
+                    try {
+                        await axios.post(`${apiUrl}/register`, {
+                            username,
+                            password,
+                        });
+                        alert("User registered");
+                    } catch (error) {
+                        alert("Registration failed");
+                    }
+                });
+
+            async function showTodos() {
+                document.getElementById("auth").style.display = "none";
+                document.getElementById("todos").style.display = "block";
+                const token = localStorage.getItem("token");
+                const response = await axios.get(`${apiUrl}/todos`, {
+                    headers: { Authorization: token },
+                });
+                const todoList = document.getElementById("todo-list");
+                todoList.innerHTML = ""; // Clear existing todos
+                response.data.forEach((todo) => {
+                    const li = document.createElement("li");
+                    li.textContent = todo.task;
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.textContent = "Delete";
+                    deleteBtn.addEventListener("click", () =>
+                        deleteTodo(todo.id)
+                    );
+                    li.appendChild(deleteBtn);
+                    todoList.appendChild(li);
+                });
+            }
+
+            document
+                .getElementById("add-todo")
+                .addEventListener("click", async () => {
+                    const task = document.getElementById("new-todo").value;
+                    const token = localStorage.getItem("token");
+                    await axios.post(
+                        `${apiUrl}/todos`,
+                        { task },
+                        {
+                            headers: { Authorization: token },
+                        }
+                    );
+                    showTodos(); // Refresh todo list
+                });
+
+            async function deleteTodo(id) {
+                const token = localStorage.getItem("token");
+                await axios.delete(`${apiUrl}/todos/${id}`, {
+                    headers: { Authorization: token },
+                });
+                showTodos(); // Refresh todo list
+            }
+        </script>
+    </body>
+</html>
