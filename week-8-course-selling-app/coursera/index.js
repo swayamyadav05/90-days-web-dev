@@ -2,37 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const { userRouter } = require("./routes/user");
+const { courseRouter } = require("./routes/course");
 
 const app = express();
 
-app.use(express.json());
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/course", courseRouter);
 
-app.post("/user/register", (req, res) => {
-  res.json({
-    message: "Signup Endpoint",
-  });
-});
-
-app.post("/user/login", (req, res) => {
-  res.json({
-    message: "Signin Endpoint",
-  });
-});
-
-app.post("/user/purchase", (req, res) => {
-  res.json({
-    message: "Purchase Endpoint",
-  });
-});
-
-app.get("/course/purchases", (req, res) => {
-  res.json({
-    message: "See purchases Endpoint",
-  });
-});
-
-app.get("/courses", (req, res) => {
-  res.json({
-    message: "See Courses Endpoint",
-  });
-});
+app.listen(3000);
