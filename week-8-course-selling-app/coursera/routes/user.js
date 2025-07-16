@@ -1,10 +1,11 @@
 const express = require("express");
 const userRouter = express.Router();
 const bcrypt = require("bcryptjs");
-const { UserModel } = require("../db");
+const { UserModel, PurchaseModel, CourseModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_USER_SECRET } = require("../config");
 const { registerSchema, loginSchema } = require("../validators/authZod");
+const course = require("./course");
 
 userRouter.use(express.json());
 
@@ -99,9 +100,26 @@ userRouter.post("/login", async (req, res, next) => {
   }
 });
 
-userRouter.post("/purchase", (req, res) => {
+userRouter.post("/purchase", async (req, res) => {
+  const userId = req.userId;
+
+  const purchases = await PurchaseModel.find({
+    userId,
+  });
+
+  let purchaseCourseIds = [];
+
+  for (let i = 0; i < purchases.length; i++) {
+    purchaseCourseIds.push(purchases[i].courseId);
+  }
+
+  const coursesData = await CourseModel.find({
+    _id: { $in: purchaseCourseIds },
+  });
+
   res.json({
-    message: "Purchase Endpoint",
+    purchases,
+    coursesData,
   });
 });
 

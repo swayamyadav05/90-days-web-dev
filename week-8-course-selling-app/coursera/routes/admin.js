@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const adminRouter = express.Router();
-const { AdminModel } = require("../db");
+const { AdminModel, CourseModel } = require("../db");
 const { JWT_ADMIN_SECRET } = require("../config");
 const { registerSchema, loginSchema } = require("../validators/authZod");
 
@@ -93,23 +93,26 @@ adminRouter.post("/login", async (req, res, next) => {
   }
 });
 
-adminRouter.post("/course", (req, res) => {
+adminRouter.post("/course", async (req, res) => {
+  const adminId = req.userId;
+
+  const { title, description, price, imageUrl } = req.body;
+
+  const course = await CourseModel.create({
+    title,
+    description,
+    price,
+    imageUrl,
+    creatorId: adminId,
+  });
+
   res.json({
-    message: "Admin Course Endpoint",
+    message: "Course created",
+    courseId: course._id,
   });
 });
 
-adminRouter.post("/course", (req, res) => {
-  res.json({
-    message: "Admin Course Endpoint",
-  });
-});
-
-adminRouter.put("/course", (req, res) => {
-  res.json({
-    message: "Admin Course Endpoint",
-  });
-});
+adminRouter.put("/course", async (req, res) => {});
 
 adminRouter.get("/course/bulk", (req, res) => {
   res.json({
