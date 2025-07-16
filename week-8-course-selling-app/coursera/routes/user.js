@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_USER_SECRET } = require("../config");
 const { registerSchema, loginSchema } = require("../validators/authZod");
 const course = require("./course");
+const { userMiddleware } = require("../middlewares/user");
 
 userRouter.use(express.json());
 
@@ -99,6 +100,8 @@ userRouter.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
+userRouter.use(userMiddleware);
 
 userRouter.post("/purchase", async (req, res) => {
   const userId = req.userId;

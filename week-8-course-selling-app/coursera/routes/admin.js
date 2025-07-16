@@ -5,6 +5,7 @@ const adminRouter = express.Router();
 const { AdminModel, CourseModel } = require("../db");
 const { JWT_ADMIN_SECRET } = require("../config");
 const { registerSchema, loginSchema } = require("../validators/authZod");
+const { adminMiddleware } = require("../middlewares/admin");
 
 adminRouter.use(express.json());
 
@@ -93,6 +94,8 @@ adminRouter.post("/login", async (req, res, next) => {
   }
 });
 
+adminRouter.use(adminMiddleware);
+
 adminRouter.post("/course", async (req, res) => {
   const adminId = req.userId;
 
@@ -112,11 +115,39 @@ adminRouter.post("/course", async (req, res) => {
   });
 });
 
-adminRouter.put("/course", async (req, res) => {});
+adminRouter.put("/course", async (req, res) => {
+  const adminId = req.userId;
 
-adminRouter.get("/course/bulk", (req, res) => {
+  const { title, description, price, imageUrl, courseId } = req.body;
+
+  const course = await CourseModel.updateOne(
+    {
+      _id: courseId,
+      creatorId: adminId,
+    },
+    {
+      title,
+      description,
+      price,
+      imageUrl,
+    }
+  );
+
   res.json({
-    message: "Admin Course Endpoint",
+    message: "Course updated",
+    courseId: course._id,
+  });
+});
+
+adminRouter.get("/course/bulk", async (req, res) => {
+  const adminId = req.userId;
+
+  const course = await CourseModel.find({
+    creatorId: adminId,
+  });
+  res.json({
+    message: "Courses",
+    course,
   });
 });
 
