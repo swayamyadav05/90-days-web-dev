@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 
+/**
+ * React hook to fetch and manage currency exchange data for a specified currency code.
+ *
+ * Initiates a fetch request to a public currency API whenever the provided currency code changes. Returns the latest currency data, loading and error states, the timestamp of the last successful update, and a boolean indicating if the data is fresh (updated within the last 5 minutes).
+ *
+ * @param {string} currency - The currency code to fetch exchange data for.
+ * @returns {{ data: object, loading: boolean, error: string|null, lastUpdated: Date|null, isDataFresh: boolean }} An object containing the fetched data, loading status, error message, last update timestamp, and data freshness indicator.
+ */
 function useCurrencyInfo(currency) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
