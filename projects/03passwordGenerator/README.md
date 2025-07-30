@@ -2,7 +2,7 @@
 
 A modern, secure password generator built with React and Vite that helps you create strong passwords with enhanced security features including breach detection and strength analysis.
 
-![Password Generator Demo]([https://90-days-web-dev-password-generator.vercel.app/])
+[Live Demo](https://90-days-web-dev-password-generator.vercel.app/)
 
 ## ✨ Features
 
