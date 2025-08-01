@@ -6,7 +6,7 @@ const About = () => {
     <div className="py-16 bg-gray-900 text-white">
       <div className="container m-auto px-6 md:px-12 xl:px-6">
         <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
-          <div className="md:5/12 lg:w-5/12">
+          <div className="md:w-5/12 lg:w-5/12">
             <img
               src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
               alt="team collaboration"
