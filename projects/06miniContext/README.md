@@ -145,17 +145,6 @@ src/
 2. **Hands-on Practice**: Built this simple but complete example
 3. **Breaking it Down**: Separated each concept into its own file
 4. **Testing Understanding**: Added features like logout to see if I really got it
-
-## 🚀 What I Want to Learn Next
-
-Now that I understand basic Context API, I want to explore:
-
-- **Multiple Contexts**: Having separate contexts for different types of data
-- **Context Performance**: Learning about re-renders and optimization
-- **Custom Hooks**: Creating `useAuth()` or `useUser()` hooks
-- **Real Authentication**: Connecting to actual backend APIs
-- **Context + Reducer**: Combining Context with useReducer for complex state
-
 ---
 
 ## 💭 Final Thoughts
