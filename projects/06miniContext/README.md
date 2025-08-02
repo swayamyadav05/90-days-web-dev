@@ -17,7 +17,7 @@ Before Context API, I was struggling with **prop drilling** - passing data throu
 
 Imagine having user login data in a parent component, but needing it in a deeply nested child component. Without Context API, I'd have to pass it through every component in between, even if they don't need it!
 
-![Visuals](image-1.png)
+![Visuals](image.png)
 
 ### My "Aha!" Moments
 
