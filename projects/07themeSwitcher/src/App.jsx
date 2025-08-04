@@ -6,11 +6,11 @@ import Card from "./components/Card";
 
 function App() {
   const [themeMode, setThemeMode] = useState(() => {
-    const saved = localStorage.getItem("themeMode") || "light";
+    const saved = localStorage.getItem("themeMode");
 
     if (saved) return saved;
 
-    return window.matchMedia("(prefers-color-scheme: dark)")
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
   });
