@@ -26,11 +26,17 @@ export const initializeTheme = () => {
   const systemTheme = getSystemTheme();
   const initialTheme = savedTheme || systemTheme;
 
-  document.documentElement.setAttribute("data-theme", initialTheme);
+  if (typeof document !== "undefined" && document.documentElement) {
+    document.documentElement.setAttribute("data-theme", initialTheme);
+  }
   return initialTheme;
 };
 
 export const toggleTheme = () => {
+  if (typeof document === "undefined" || !document.documentElement) {
+    return "light"; // Safe fallback for SSR
+  }
+
   const currentTheme =
     document.documentElement.getAttribute("data-theme");
   const newTheme = currentTheme === "dark" ? "light" : "dark";
