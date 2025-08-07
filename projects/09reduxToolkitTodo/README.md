@@ -176,63 +176,6 @@ removeTodo: (state, action) => {
 };
 ```
 
-## 🚦 Getting Started
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- Basic understanding of React
-- Familiarity with JavaScript ES6+
-
-### Installation & Setup
-
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd 09reduxToolkitTodo
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-### Dependencies Used
-
-```json
-{
-  "@reduxjs/toolkit": "^2.0.1",
-  "react-redux": "^9.0.4",
-  "react": "^18.2.0",
-  "react-dom": "^18.2.0"
-}
-```
-
-## 🎨 UI/UX Design Approach
-
-### Design Philosophy
-
-- **Clean and Minimal**: Focus on functionality over flashy design
-- **CSS Variables**: Consistent theming and easy customization
-- **Responsive Layout**: Works on all screen sizes
-- **Accessibility**: Proper semantic HTML and keyboard navigation
-
-### Color Scheme
-
-```css
-:root {
-  --bg: #ffffff;
-  --card-bg: #f8f9fa;
-  --text: #333333;
-  --text-light: #666666;
-  --border: #e9ecef;
-  --primary: #007bff;
-  --success: #28a745;
-  --danger: #dc3545;
-}
-```
-
 ## 🔄 State Flow Diagram
 
 ```
@@ -301,10 +244,9 @@ const todos = useSelector((state) => state.todos);
    - Toggle all
    - Enhanced UI
 
-4. **Polish & Deploy** (30 minutes)
+4. **Polishing** (30 minutes)
    - Clean up code
    - Add documentation
-   - Deploy to Vercel/Netlify
 
 ## 🔗 Additional Learning Resources
 
@@ -335,21 +277,7 @@ This is a learning project, but suggestions for improvements are welcome!
 
 ## 🎉 What's Next?
 
-### Potential Enhancements
-
-- **Persistence**: Add localStorage integration
-- **Categories**: Organize todos by categories
-- **Due Dates**: Add date functionality
-- **Drag & Drop**: Reorder todos
-- **Dark Mode**: Theme switching
-- **API Integration**: Connect to backend
-- **Testing**: Add unit and integration tests
-
-### Related Learning Projects
-
-- **Redux with API**: Build a weather app with async actions
-- **Redux + TypeScript**: Add type safety
-- **Redux + Router**: Multi-page applications
+### Keep Learning and build Projects
 
 ---
 
