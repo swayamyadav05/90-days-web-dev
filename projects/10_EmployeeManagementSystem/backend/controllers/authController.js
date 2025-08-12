@@ -12,15 +12,7 @@ exports.register = async (req, res) => {
   try {
     console.log("Register request received:", req.body);
 
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      department,
-      position,
-      role,
-    } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({
@@ -48,8 +40,6 @@ exports.register = async (req, res) => {
       email,
       password,
       role: role || "employee",
-      department,
-      position,
     });
 
     const savedUser = await newUser.save();
@@ -68,8 +58,6 @@ exports.register = async (req, res) => {
             lastName: savedUser.lastName,
             email: savedUser.email,
             role: savedUser.role,
-            department: savedUser.department,
-            position: savedUser.position,
           },
         },
       ],
@@ -142,8 +130,6 @@ exports.login = async (req, res) => {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
-            department: user.department,
-            position: user.position,
           },
         },
       ],
