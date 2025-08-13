@@ -1,107 +1,87 @@
 import "./App.css";
-import Button from "./components/ui/Button";
-import Input from "./components/ui/input";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/Card";
-// import { Label } from "./components/ui/Label";
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
+// Components
+import LoginSignup from "./components/auth/LoginSignup";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Pages
+import AdminDashboard from "./pages/admin/adminDashboard";
+import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
+
+// Auth Hook
+import useAuth from "./hooks/useAuth";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white p-8">
-      <h1 className="text-3xl font-bold mb-8">
-        Neobrutalism Component Test
-      </h1>
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Toaster position="top-right" reverseOrder={false} />
 
-      <div className="space-y-4 flex gap-2">
-        <Button variant="primary">Primary Button</Button>
-        <Button variant="secondary">Secondary Button</Button>
-        <Button variant="neutral">Neutral Button</Button>
-        <Button variant="success">Success Button</Button>
-        <Button variant="danger">Danger Button</Button>
-        <Button variant="outline">Outline Button</Button>
-      </div>
+        <Routes>
+          {/* Public Route - Login */}
+          <Route path="/login" element={<LoginSignup />} />
 
-      <div className="mt-8 space-y-4 max-w-md">
-        <Input placeholder="Enter your name..." />
-        <Input type="email" placeholder="Enter your email..." />
-        <Input type="password" placeholder="Enter your password..." />
-        <Input disabled placeholder="Disabled input..." />
-      </div>
+          {/* Protected Routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-      <div className="mt-8 flex justify-center">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-start leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Login to your account
-            </CardTitle>
-            <CardDescription className="text-sm  text-start leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Enter your email below to login to your account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <label
-                    htmlFor="email"
-                    className="text-sm font-semibold text-start leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email..."
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex items-center">
-                    <label
-                      htmlFor="password"
-                      className="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      Password
-                    </label>
-                    <a
-                      href="#"
-                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                      Forgot your password?
-                    </a>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    placeholder="Enter your password..."
-                  />
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
-            <Button
-              variant="neutral"
-              type="submit"
-              className="w-full">
-              Login
-            </Button>
-            <Button className="w-full">Register</Button>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
-            </div>
-          </CardFooter>
-        </Card>
+          <Route
+            path="/employee/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["employee"]}>
+                <EmployeeDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Smart Redirect Route */}
+          <Route path="/" element={<SmartRedirect />} />
+
+          {/* Catch all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
+
+// Smart redirect component based on user role
+const SmartRedirect = () => {
+  const { user, isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Redirect based on user role
+  if (user.role === "admin") {
+    return <Navigate to="/admin/dashboard" replace />;
+  } else if (user.role === "employee") {
+    return <Navigate to="/employee/dashboard" replace />;
+  } else {
+    return <Navigate to="/login" replace />;
+  }
+};
 
 export default App;

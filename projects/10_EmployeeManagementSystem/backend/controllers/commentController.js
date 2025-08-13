@@ -1,6 +1,5 @@
 const Task = require("../models/Task");
 const User = require("../models/User");
-const TaskHelpers = require("../utils/taskHelpers");
 
 // 1. Add comment to task (Both admin and assigned employee)
 exports.addTaskComment = async (req, res) => {
