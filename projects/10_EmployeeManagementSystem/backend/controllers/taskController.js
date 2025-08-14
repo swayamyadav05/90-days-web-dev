@@ -79,11 +79,11 @@ exports.createTask = async (req, res) => {
     // Step 5: Populate user details
     await savedTask.populate(
       "assignedTo",
-      "firstName lastName email department position"
+      "firstName lastName email"
     );
     await savedTask.populate(
       "assignedBy",
-      "firstName lastName email department position"
+      "firstName lastName email"
     );
 
     res.status(201).json({
@@ -124,8 +124,8 @@ exports.getMyTasks = async (req, res) => {
 
     // Find tasks and populate user details
     const tasks = await Task.find(filter)
-      .populate("assignedBy", "firstName lastName email department position")
-      .populate("assignedTo", "firstName lastName email department position")
+      .populate("assignedBy", "firstName lastName email")
+      .populate("assignedTo", "firstName lastName email")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -204,8 +204,8 @@ exports.getAllTasks = async (req, res) => {
 
     // Find all tasks with population
     const tasks = await Task.find(filter)
-      .populate("assignedBy", "firstName lastName email department position")
-      .populate("assignedTo", "firstName lastName email department position")
+      .populate("assignedBy", "firstName lastName email")
+      .populate("assignedTo", "firstName lastName email")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);

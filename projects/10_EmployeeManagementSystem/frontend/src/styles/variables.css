@@ -1,0 +1,94 @@
+/* Neobrutalism Design System - CSS Variables */
+/* These variables will be used by Tailwind classes */
+
+:root {
+  /* Primary Colors */
+  --color-primary-50: #fefce8;
+  --color-primary-100: #fef3c7;
+  --color-primary-200: #fde68a;
+  --color-primary-300: #fcd34d;
+  --color-primary-400: #fbbf24; /* Main primary color - NOW BLUE! */
+  --color-primary-500: #f59e0b;
+  --color-primary-600: #d97706;
+  --color-primary-700: #b45309;
+  --color-primary-800: #92400e;
+  --color-primary-900: #78350f;
+
+  /* Secondary Colors */
+  --color-secondary-50: #f0f9ff;
+  --color-secondary-100: #e0f2fe;
+  --color-secondary-200: #bae6fd;
+  --color-secondary-300: #7dd3fc;
+  --color-secondary-400: #38bdf8; /* Main secondary color - NOW CYAN! */
+  --color-secondary-500: #0ea5e9;
+  --color-secondary-600: #0284c7;
+  --color-secondary-700: #0369a1;
+  --color-secondary-800: #075985;
+  --color-secondary-900: #0c4a6e;
+
+  /* Success Colors */
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+  --color-success-300: #86efac;
+  --color-success-400: #4ade80; /* Main success color */
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
+  --color-success-900: #14532d;
+
+  /* Danger Colors */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171; /* Main danger color */
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* Neutral Colors */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #60a5fa; /* Main neutral color */
+  --color-neutral-500: #3b82f6;
+  --color-neutral-600: #2563eb;
+  --color-neutral-700: #1d4ed8;
+  --color-neutral-800: #1e40af;
+  --color-neutral-900: #1e3a8a;
+
+  /* Base Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Gray Scale */
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Neobrutalism Effects */
+  --shadow-sm: 2px 2px 0px 0px black;
+  --shadow-md: 4px 4px 0px 0px black;
+  --shadow-lg: 6px 6px 0px 0px black;
+  --shadow-xl: 8px 8px 0px 0px black;
+
+  --hover-shadow-sm: 1px 1px 0px 0px black;
+  --hover-shadow-md: 2px 2px 0px 0px black;
+  --hover-shadow-lg: 3px 3px 0px 0px black;
+  --hover-shadow-xl: 4px 4px 0px 0px black;
+
+  --border-thin: 2px solid black;
+  --border-thick: 3px solid black;
+  --border-heavy: 4px solid black;
+}
