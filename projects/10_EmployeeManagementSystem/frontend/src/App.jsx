@@ -13,6 +13,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages
 import AdminDashboard from "./pages/admin/adminDashboard";
+import EmployeeManagement from "./pages/admin/EmployeeManagement";
+import TaskManagement from "./components/admin/tasks/TaskManagement";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
 
 // Auth Hook
@@ -34,6 +36,24 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/employees"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <EmployeeManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/tasks"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <TaskManagement />
               </ProtectedRoute>
             }
           />

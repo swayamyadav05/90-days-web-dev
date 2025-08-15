@@ -1,6 +1,49 @@
 const Task = require("../models/Task");
 const User = require("../models/User");
 
+// Get single task
+exports.getTaskById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`📋 Getting task with ID: ${id}`);
+
+    const task = await Task.findById(id)
+      .populate("assignedTo", "firstName lastName email")
+      .populate("assignedBy", "firstName lastName email");
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    // Check access permissions
+    if (
+      req.user.role !== "admin" &&
+      task.assignedTo._id.toString() !== req.user.userId
+    ) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Access denied. You can only view tasks assigned to you.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Task fetched successfully",
+      data: { task },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching task:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch task",
+    });
+  }
+};
+
 // 1. Create task (Admin only)
 exports.createTask = async (req, res) => {
   try {
@@ -89,7 +132,9 @@ exports.createTask = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Task created successfully",
-      data: savedTask,
+      data: {
+        task: savedTask,
+      },
     });
   } catch (error) {
     console.error("Create task error:", error);
@@ -299,7 +344,7 @@ exports.getAllTasks = async (req, res) => {
       urgent: 0,
     };
 
-    priorities.forEach((stat) => {
+    priorityStats.forEach((stat) => {
       priorities[stat._id] = stat.count;
     });
 
@@ -484,14 +529,84 @@ exports.deleteTask = async (req, res) => {
         deletedTask: {
           id: task._id,
           title: task.title,
-          assignedTo: `${task.assignedTo.firstName} ${task.assignedTo.lastName}
-          }`,
+          assignedTo: `${task.assignedTo.firstName} ${task.assignedTo.lastName}`,
           status: task.status,
         },
       },
     });
   } catch (error) {
     console.error("Delete task error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+// Update task details (Admin only)
+exports.updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    console.log(`📝 Updating task ${id} with data:`, updateData);
+
+    // Find the task
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    // Check permissions (Admin only for now)
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Access denied. Only admins can update task details.",
+      });
+    }
+
+    // If assignedTo is being updated, validate the user exists
+    if (
+      updateData.assignedTo &&
+      updateData.assignedTo !== task.assignedTo.toString()
+    ) {
+      const assignedUser = await User.findById(updateData.assignedTo);
+      if (!assignedUser) {
+        return res.status(404).json({
+          success: false,
+          message: "Assigned user not found",
+        });
+      }
+      if (!assignedUser.isActive) {
+        return res.status(400).json({
+          success: false,
+          message: "Cannot assign task to inactive user",
+        });
+      }
+    }
+
+    // Update the task
+    const updatedTask = await Task.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    })
+      .populate("assignedTo", "firstName lastName email")
+      .populate("assignedBy", "firstName lastName email");
+
+    res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: {
+        task: updatedTask,
+      },
+    });
+  } catch (error) {
+    console.error("Update task error:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
