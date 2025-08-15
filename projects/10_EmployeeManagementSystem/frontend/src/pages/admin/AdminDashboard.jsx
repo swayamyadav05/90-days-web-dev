@@ -1,9 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Button from "../../components/ui/Button";
+import employeeService from "../../services/employeeService";
+import taskService from "../../services/taskService";
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalEmployees: 0,
+    activeTasks: 0,
+    pendingReviews: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch employees count
+      const employeesResult = await employeeService.getAllEmployees();
+      const totalEmployees = employeesResult.success
+        ? employeesResult.employees.length
+        : 0;
+
+      // Fetch tasks stats
+      const tasksResult = await taskService.getAllTasks();
+      const tasks = tasksResult.success ? tasksResult.tasks : [];
+      const activeTasks = tasks.filter(
+        (task) =>
+          task.status === "pending" || task.status === "in-progress"
+      ).length;
+      const pendingReviews = tasks.filter(
+        (task) => task.status === "completed"
+      ).length;
+
+      setStats({
+        totalEmployees,
+        activeTasks,
+        pendingReviews,
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard stats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white p-8">
@@ -30,19 +77,25 @@ const AdminDashboard = () => {
             <h3 className="text-xl font-bold mb-2">
               Total Employees
             </h3>
-            <p className="text-3xl font-bold">0</p>
+            <p className="text-3xl font-bold">
+              {loading ? "..." : stats.totalEmployees}
+            </p>
           </div>
 
           <div className="bg-green-400 p-6 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-xl font-bold mb-2">Active Tasks</h3>
-            <p className="text-3xl font-bold">0</p>
+            <p className="text-3xl font-bold">
+              {loading ? "..." : stats.activeTasks}
+            </p>
           </div>
 
           <div className="bg-yellow-400 p-6 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-xl font-bold mb-2">
               Pending Reviews
             </h3>
-            <p className="text-3xl font-bold">0</p>
+            <p className="text-3xl font-bold">
+              {loading ? "..." : stats.pendingReviews}
+            </p>
           </div>
         </div>
 
@@ -53,18 +106,14 @@ const AdminDashboard = () => {
             <Button
               variant="primary"
               size="lg"
-              onClick={() =>
-                alert("Add Employee feature coming soon!")
-              }>
-              Add Employee
+              onClick={() => navigate("/admin/employees")}>
+              👥 Manage Employees
             </Button>
             <Button
               variant="success"
               size="lg"
-              onClick={() =>
-                alert("Create Task feature coming soon!")
-              }>
-              Create Task
+              onClick={() => navigate("/admin/tasks")}>
+              📋 Manage Tasks
             </Button>
             <Button
               variant="secondary"
@@ -72,34 +121,41 @@ const AdminDashboard = () => {
               onClick={() =>
                 alert("View Reports feature coming soon!")
               }>
-              View Reports
+              📊 View Reports
             </Button>
           </div>
 
-          {/* Demo section for all button variants */}
+          {/* Recent Activity */}
           <div className="mt-8 pt-6 border-t-2 border-gray-200">
             <h3 className="text-lg font-bold mb-4">
-              Button Variants Demo
+              Recent Activity
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <Button variant="primary" size="sm">
-                Primary Small
-              </Button>
-              <Button variant="secondary" size="md">
-                Secondary Medium
-              </Button>
-              <Button variant="success" size="lg">
-                Success Large
-              </Button>
-              <Button variant="danger" size="sm">
-                Danger Small
-              </Button>
-              <Button variant="neutral" size="md">
-                Neutral Medium
-              </Button>
-              <Button variant="outline" size="lg">
-                Outline Large
-              </Button>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 border-2 border-gray-200 rounded-sm">
+                <span className="text-sm">
+                  📝 New task created: "Complete project
+                  documentation"
+                </span>
+                <span className="text-xs text-gray-500">
+                  2 hours ago
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 border-2 border-gray-200 rounded-sm">
+                <span className="text-sm">
+                  👤 Employee John Doe completed task
+                </span>
+                <span className="text-xs text-gray-500">
+                  5 hours ago
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 border-2 border-gray-200 rounded-sm">
+                <span className="text-sm">
+                  ✅ Task "Fix login bug" marked as completed
+                </span>
+                <span className="text-xs text-gray-500">
+                  1 day ago
+                </span>
+              </div>
             </div>
           </div>
         </div>
