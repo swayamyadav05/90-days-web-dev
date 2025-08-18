@@ -3,7 +3,9 @@ const {
   createTask,
   getMyTasks,
   getAllTasks,
+  getTaskById,
   updateTaskStatus,
+  updateTask,
   deleteTask,
 } = require("../controllers/taskController");
 const { verifyToken, requireAdmin } = require("../middlewares/auth");
@@ -29,7 +31,17 @@ router.get("/all", verifyToken, requireAdmin, getAllTasks);
 
 // Employee routes (any authenticated user)
 router.get("/my-tasks", verifyToken, getMyTasks);
+
+// Get tasks (admin gets all, employee gets own)
+router.get("/", verifyToken, getAllTasks);
+
+// Get single task (accessible to admin or assigned employee)
+router.get("/:id", verifyToken, getTaskById);
+
 router.patch("/:id/status", verifyToken, updateTaskStatus);
+
+// Update task details (Admin only)
+router.put("/:id", verifyToken, requireAdmin, updateTask);
 
 // Task deltetion (Admin only)
 router.delete("/:id", verifyToken, requireAdmin, deleteTask);
