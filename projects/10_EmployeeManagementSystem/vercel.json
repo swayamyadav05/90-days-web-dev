@@ -2,23 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build"
+      "src": "projects/10_EmployeeManagementSystem/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     },
     {
-      "src": "backend/server.js",
+      "src": "projects/10_EmployeeManagementSystem/backend/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/projects/10_EmployeeManagementSystem/backend/server.js"
     },
-    { "handle": "filesystem" },
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/projects/10_EmployeeManagementSystem/frontend/dist/$1"
     }
   ]
 }
