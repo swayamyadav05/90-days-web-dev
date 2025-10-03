@@ -12,7 +12,7 @@ import LoginSignup from "./components/auth/LoginSignup";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages
-import AdminDashboard from "./pages/admin/adminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import EmployeeManagement from "./pages/admin/EmployeeManagement";
 import TaskManagement from "./components/admin/tasks/TaskManagement";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
