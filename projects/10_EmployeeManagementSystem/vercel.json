@@ -1,26 +1,32 @@
 {
   "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
   "builds": [
     {
-      "src": "projects/10_EmployeeManagementSystem/frontend/package.json",
+      "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "buildCommand": "npm run build",
+        "outputDirectory": "dist"
       }
     },
     {
-      "src": "projects/10_EmployeeManagementSystem/backend/server.js",
+      "src": "backend/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/projects/10_EmployeeManagementSystem/backend/server.js"
+      "dest": "/backend/server.js"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/projects/10_EmployeeManagementSystem/frontend/dist/$1"
+      "dest": "/frontend/dist/index.html"
     }
   ]
 }

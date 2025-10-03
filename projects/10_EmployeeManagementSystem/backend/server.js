@@ -30,8 +30,8 @@ app.use(
 );
 app.use(express.json());
 
-// Basic route
-app.get("/", (req, res) => {
+// Health check route
+app.get("/api", (req, res) => {
   res.json({
     message: "Employee Management System API",
     version: "1.0.0",
